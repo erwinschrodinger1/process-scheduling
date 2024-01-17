@@ -5,7 +5,7 @@
 
 MultiResourceProcesses::MultiResourceProcesses(int size, int resources) : resources(resources), size(size)
 {
-    std::cout << "Total Process resources: " << std::endl;
+    std::cout << "Available Process resources: " << std::endl;
     totalResources.initializeProcess(resources);
     for (int i = 0; i < size; i++)
     {
