@@ -22,24 +22,36 @@ bool multiResourceSort(MultiResourceProcess &a, MultiResourceProcess &b)
 
 void MultiResourceProcesses::bankers()
 {
-    std::vector<int> used = processes.at(0).process;
-    for (int i = 1; i < size - 1; i++)
-    {
-        used = vectorOperation(SUM, used, processes.at(i).process);
-    }
-    std::vector<int> available = vectorOperation(DIFF, totalResources.process, used);
-    std::sort(processes.begin(), processes.end(), multiResourceSort);
+    std::vector<int> available = totalResources.process;
+    std::vector<MultiResourceProcess> duplicate = processes;
+    int tempSize = size;
     int completedProcess = 0;
-    for (int i = 0; i < size; i++)
+    std::cout << "Executing Processes.." << std::endl;
+    while (completedProcess != processes.size())
     {
-        if (vectorCompare(processes.at(i).process, available) == -1)
+        bool isProcessExecuted = 0;
+        for (int i = 0; i < tempSize; i++)
         {
-            std::cout << "Process id: " << processes.at(i).pid << std::endl;
-            completedProcess++;
+            std::cout << "Process of PID: " << duplicate.at(i).pid << "\nneed: \t";
+            printVector(duplicate.at(i).process);
+            std::cout << "Available: \t";
+            printVector(available);
+            if (vectorCompare(duplicate.at(i).process, available) == -1)
+            {
+                available = vectorOperation(SUM, available, duplicate.at(i).process);
+                std::cout
+                    << "Executing Process of Process id: " << duplicate.at(i).pid << std::endl;
+                duplicate.erase(duplicate.begin() + i);
+                tempSize -= 1;
+                i -= 1;
+                completedProcess++;
+                isProcessExecuted = 1;
+            }
         }
-    }
-    if (completedProcess != processes.size())
-    {
-        std::cout << "Invalid Cannot proceed" << std::endl;
+        if (!isProcessExecuted && completedProcess != size)
+        {
+            std::cout << "Invalid Cannot proceed" << std::endl;
+            return;
+        }
     }
 }

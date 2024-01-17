@@ -53,5 +53,14 @@ int vectorCompare(const std::vector<int> &vec1, const std::vector<int> &vec2)
             return -2;
         }
     }
-    return 0;
+    return flag;
+}
+
+void printVector(std::vector<int> &vec)
+{
+    for (int i = 0; i < vec.size(); i++)
+    {
+        std::cout << vec.at(i) << "\t";
+    }
+    std::cout << std::endl;
 }
